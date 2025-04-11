@@ -1,14 +1,14 @@
 import sqlite3
 import pandas as pd
 from tkinter import filedialog, messagebox
-from Modules.TXT_Generator.fb_sts_block import sts_blocks
-from Modules.TXT_Generator.fb_default_parameters import default_parameters_block
-from Modules.TXT_Generator.fb_actual_parameters import actual_par_block
+from Modules.TXT_Generator.Text_blocks.fb_sts_block import sts_blocks
+from Modules.TXT_Generator.Text_blocks.fb_hmi_cmd_blocks import hmi_cmd_blocks
+from Modules.TXT_Generator.Text_blocks.fb_default_parameters import default_parameters_block
+from Modules.TXT_Generator.Text_blocks.fb_actual_parameters import actual_par_block
 from Modules.TXT_Generator.constants import PLC, HMI
-
 import os
 
-def genera_file_txt(db_path, sts_tables, par_tables, device, path_db):
+def genera_file_txt(db_path, sts_tables, par_tables,hmi_cmd_tables, device, path_db, output_dir=None):
     conn = sqlite3.connect(db_path)
     contenuto = []
 
@@ -31,10 +31,19 @@ def genera_file_txt(db_path, sts_tables, par_tables, device, path_db):
         blocco_status = sts_blocks(df, header_label, device)
         contenuto.extend(blocco_status)    
 
+    # write the hmi cmd block on both file (PLC and HMI)
+    for nome_tabella, header_label in hmi_cmd_tables:
+        df = pd.read_sql_query(f"SELECT * FROM {nome_tabella}", conn)
+        blocco_status = hmi_cmd_blocks(df, header_label, device)
+        contenuto.extend(blocco_status)    
 
     conn.close()
 
-    output_path = os.path.splitext(os.path.basename(path_db))[0] + f"_{device}.txt"
+    nome_file = os.path.splitext(os.path.basename(path_db))[0] + f"_{device}.txt"
+    if output_dir:
+        output_path = os.path.join(output_dir, nome_file)
+    else:
+        output_path = nome_file
 
     with open(output_path, "w", encoding="utf-8") as f:
         f.write("\n".join(contenuto))

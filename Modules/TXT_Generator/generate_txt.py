@@ -19,6 +19,8 @@ def genera_txt():
         messagebox.showerror("Errore", "File non trovato.")
         return
 
+    base_dir = os.path.dirname(path_db)
+
     sts_tables = [
         ("mach_sts_bool", "STS BOOL"),
         ("mach_sts_int", "STS INT"),
@@ -30,9 +32,14 @@ def genera_txt():
         ("par_int", "PAR INT"),
     ]
 
+    hmi_cmd_tables = [
+        ("hmi_cmd_bool", "HMI COMMANDS BOOL"),
+        ("hmi_cmd_int", "HMI COMMANDS INT"),
+    ]
+
     try:
-        genera_file_txt(path_db, sts_tables=sts_tables, par_tables=par_tables, device=PLC, path_db=path_db)
-        genera_file_txt(path_db, sts_tables=sts_tables, par_tables=par_tables, device=HMI, path_db=path_db)
+        genera_file_txt(path_db, sts_tables=sts_tables, par_tables=par_tables,hmi_cmd_tables=hmi_cmd_tables, device=PLC, path_db=path_db, output_dir=base_dir)
+        genera_file_txt(path_db, sts_tables=sts_tables, par_tables=par_tables,hmi_cmd_tables=hmi_cmd_tables, device=HMI, path_db=path_db, output_dir=base_dir)
     except Exception as e:
         messagebox.showerror("Errore", str(e))
         return
