@@ -24,6 +24,7 @@ def importa_excel_in_sqlite():
 
     for sheet_name in xls.sheet_names:
         df = xls.parse(sheet_name)
+        df = df.applymap(lambda x: x.strip() if isinstance(x, str) else x)  # Rimuove spazi da tutte le stringhe
         df.to_sql(sheet_name, conn, index=False, if_exists="replace")
 
     conn.close()
