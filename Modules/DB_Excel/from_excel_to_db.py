@@ -1,3 +1,4 @@
+import os
 import sqlite3
 import pandas as pd
 from tkinter import filedialog, messagebox
@@ -10,9 +11,20 @@ def scegli_salvataggio(titolo, tipo_file):
     file_path = filedialog.asksaveasfilename(title=titolo, defaultextension=tipo_file[1], filetypes=[tipo_file])
     return file_path
 
+def is_file_locked(filepath):
+    try:
+        with open(filepath, 'rb+'):
+            return False
+    except IOError:
+        return True
+
 def importa_excel_in_sqlite():
     xlsx_path = scegli_file("Scegli il file Excel", [("Excel Workbook", "*.xlsx")])
     if not xlsx_path:
+        return
+
+    if is_file_locked(xlsx_path):
+        messagebox.showerror("Errore", "Il file Excel è aperto o bloccato. Chiudilo prima di continuare.")
         return
 
     db_path = scegli_salvataggio("Salva il database SQLite", ("Database SQLite", ".sqlite"))
@@ -24,7 +36,7 @@ def importa_excel_in_sqlite():
 
     for sheet_name in xls.sheet_names:
         df = xls.parse(sheet_name)
-        df = df.applymap(lambda x: x.strip() if isinstance(x, str) else x)  # Rimuove spazi da tutte le stringhe
+        df = df.applymap(lambda x: x.strip() if isinstance(x, str) else x)
         df.to_sql(sheet_name, conn, index=False, if_exists="replace")
 
     conn.close()
