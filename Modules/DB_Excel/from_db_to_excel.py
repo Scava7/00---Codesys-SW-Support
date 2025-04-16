@@ -30,6 +30,10 @@ def esporta_sqlite_in_excel():
 
     for table_name in tables['name']:
         df = pd.read_sql(f"SELECT * FROM '{table_name}'", conn)
+
+        if table_name == "PAR_BOOL" and "factory_value" in df.columns:
+            df["factory_value"] = df["factory_value"].apply(lambda x: "TRUE" if str(x).strip().upper() == "TRUE" else "FALSE")
+
         df.to_excel(xls_writer, sheet_name=table_name, index=False)
 
     xls_writer.close()

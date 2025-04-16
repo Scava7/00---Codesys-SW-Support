@@ -36,7 +36,11 @@ def importa_excel_in_sqlite():
 
     for sheet_name in xls.sheet_names:
         df = xls.parse(sheet_name)
-        df = df.applymap(lambda x: x.strip() if isinstance(x, str) else x)
+        df = df.apply(lambda col: col.str.strip() if col.dtype == "object" else col)
+
+        if sheet_name == "PAR_BOOL" and "factory_value" in df.columns:
+            df["factory_value"] = df["factory_value"].apply(lambda x: "TRUE" if str(x).strip().upper() == "TRUE" else "FALSE")
+
         df.to_sql(sheet_name, conn, index=False, if_exists="replace")
 
     conn.close()
