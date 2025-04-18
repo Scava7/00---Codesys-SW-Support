@@ -5,7 +5,7 @@ def default_parameters_block(df, header_title):
     df["description"] = df["description"].fillna("")
 
     if header_title == "PAR BOOL":
-        df["factory_value_fmt"] = df["factory_value"].apply(lambda val: "TRUE" if str(val).strip() in ("1", "True", "true") else "FALSE")
+        df["factory_value_fmt"] = df["factory_value"].apply(lambda val: "TRUE" if str(val).strip() in ("1", "True", "true", "TRUE") else "FALSE")
     else:
         df["factory_value_fmt"] = df["factory_value"].fillna("").astype(str)
 
