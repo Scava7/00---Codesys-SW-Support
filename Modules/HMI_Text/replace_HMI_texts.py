@@ -23,11 +23,11 @@ def analizza_caratteri_a_capo(db_path):
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
-    print("🔍 Verifica caratteri a capo nel database:")
+    print("Verifica caratteri a capo nel database:")
     totali = 0
 
     for tabella in ["PAR_BOOL", "PAR_INT"]:
-        print(f"\n🗂️  Tabella {tabella}:")
+        print(f"\nTabella {tabella}:")
         for row in cursor.execute(f"SELECT rowid, global_variable FROM {tabella}"):
             rowid, gv = row
             if not isinstance(gv, str):
@@ -38,9 +38,9 @@ def analizza_caratteri_a_capo(db_path):
                 print(f" - [row {rowid}] {repr(gv)} → {repr(cleaned)}")
 
     if totali == 0:
-        print("\n✅ Nessun carattere a capo trovato nelle tabelle.")
+        print("\nNessun carattere a capo trovato nelle tabelle.")
     else:
-        print(f"\n⚠️  Totale righe da correggere: {totali}")
+        print(f"\nTotale righe da correggere: {totali}")
 
     conn.close()
 
