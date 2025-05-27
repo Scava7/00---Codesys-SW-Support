@@ -4,7 +4,7 @@ from tkinter import filedialog, messagebox
 from Modules.TXT_Generator.Text_blocks.fb_sts_block import sts_blocks
 from Modules.TXT_Generator.Text_blocks.fb_hmi_cmd_blocks import hmi_cmd_blocks
 from Modules.TXT_Generator.Text_blocks.fb_default_parameters import default_parameters_block
-from Modules.TXT_Generator.Text_blocks.fb_actual_parameters import actual_par_block
+from Modules.TXT_Generator.Text_blocks.fb_actual_parameters import actual_par_block, actual_par_block_new
 from Modules.TXT_Generator.constants import PLC, HMI
 import os
 
@@ -22,7 +22,8 @@ def genera_file_txt(db_path, sts_tables, par_tables,hmi_cmd_tables, device, path
     # write the actual paramaters block on both file (PLC and HMI)
     for nome_tabella, header_label in par_tables:
         df = pd.read_sql_query(f"SELECT * FROM {nome_tabella}", conn)
-        act_par_block = actual_par_block(df, header_label, device)
+        #act_par_block = actual_par_block(df, header_label, device)
+        act_par_block = actual_par_block_new(df, header_label, device)
         contenuto.extend(act_par_block)
 
     # write the status block on both file (PLC and HMI)
