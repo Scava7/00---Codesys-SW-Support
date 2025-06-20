@@ -46,7 +46,7 @@ def genera_file_txt(db_path, sts_tables, par_tables,hmi_cmd_tables, device, path
     for nome_tabella, header_label in par_tables:
         df = pd.read_sql_query(f"SELECT * FROM {nome_tabella}", conn)
         #act_par_block = actual_par_block(df, header_label, device)
-        act_par_block = actual_par_block_new(df, header_label, device)
+        act_par_block = actual_par_block_new(df, header_label)
         contenuto.extend(act_par_block)
 
     # write the status block on both file (PLC and HMI)
