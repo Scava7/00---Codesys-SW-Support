@@ -1,5 +1,7 @@
 import sqlite3
 import pandas as pd
+import os
+from datetime import datetime
 from tkinter import filedialog, messagebox
 from Modules.TXT_Generator.Text_blocks.fb_sts_block import sts_blocks
 from Modules.TXT_Generator.Text_blocks.fb_hmi_cmd_blocks import hmi_cmd_blocks
@@ -7,6 +9,27 @@ from Modules.TXT_Generator.Text_blocks.fb_default_parameters import default_para
 from Modules.TXT_Generator.Text_blocks.fb_actual_parameters import actual_par_block, actual_par_block_new
 from Modules.TXT_Generator.constants import PLC, HMI
 import os
+
+def path_to_file(path_db, device):
+    #nome_file = os.path.splitext(os.path.basename(path_db))[0] + f"_{device}.txt"
+    
+    # === ESTRAGGO NOME FILE BASE ===
+    base_name = os.path.splitext(os.path.basename(path_db))[0]
+
+    # === DATA E ORA ATTUALI ===
+    now = datetime.now()
+    timestamp = now.strftime("%y%m%d_%H%M")  # es: "250617_0930"
+
+    # === MODIFICA DEGLI ULTIMI 11 CARATTERI ===
+    if len(base_name) >= 11:
+        new_base = base_name[:-11] + timestamp
+    else:
+        new_base = base_name + "_" + timestamp  # fallback in caso sia troppo corto
+
+    # === COSTRUZIONE NOME FILE ===
+    file_name = f"{new_base}_{device}.txt"
+
+    return(file_name)
 
 def genera_file_txt(db_path, sts_tables, par_tables,hmi_cmd_tables, device, path_db, output_dir=None):
     conn = sqlite3.connect(db_path)
@@ -40,11 +63,13 @@ def genera_file_txt(db_path, sts_tables, par_tables,hmi_cmd_tables, device, path
 
     conn.close()
 
-    nome_file = os.path.splitext(os.path.basename(path_db))[0] + f"_{device}.txt"
+    
+    #insert HERE the function to generate the file name
+
     if output_dir:
-        output_path = os.path.join(output_dir, nome_file)
+        output_path = os.path.join(output_dir, path_to_file(path_db, device))
     else:
-        output_path = nome_file
+        output_path = path_to_file(path_db, device)
 
     with open(output_path, "w", encoding="utf-8") as f:
         f.write("\n".join(contenuto))
