@@ -8,7 +8,7 @@ from Modules.TXT_Generator.Text_blocks.fb_hmi_cmd_blocks import hmi_cmd_blocks
 from Modules.TXT_Generator.Text_blocks.fb_default_parameters import default_parameters_block
 from Modules.TXT_Generator.Text_blocks.fb_actual_parameters import actual_par_block, actual_par_block_new
 from Modules.TXT_Generator.constants import PLC, HMI
-import os
+import os, subprocess
 
 def path_to_file(path_db, device):
     #nome_file = os.path.splitext(os.path.basename(path_db))[0] + f"_{device}.txt"
@@ -76,3 +76,19 @@ def genera_file_txt(db_path, sts_tables, par_tables,hmi_cmd_tables, device, path
 
     print(f"[OK] File generato: {output_path}")
     messagebox.showinfo("Successo", f"File generato:\n{output_path}")
+
+    return output_path
+
+
+
+def open_generated_files(file_paths):
+    file_paths = [file_path.replace("/", "\\") for file_path in file_paths]  # <-- forza backslash
+    npp_path = r"C:\Program Files\Notepad++\notepad++.exe"
+
+    for file_path in file_paths:
+        # Prima prova con Notepad++
+        if os.path.exists(npp_path):
+            subprocess.Popen([npp_path, file_path])
+        else:
+            print("Notepad++ non trovato, uso Notepad.")
+            subprocess.Popen(["notepad.exe", file_path])

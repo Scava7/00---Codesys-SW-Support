@@ -1,7 +1,7 @@
 import os
 import sqlite3
 from tkinter import filedialog, messagebox
-from Modules.TXT_Generator.fb_generate_file import genera_file_txt
+from Modules.TXT_Generator.fb_generate_file import genera_file_txt, open_generated_files
 from Modules.TXT_Generator.constants import PLC, HMI
 
 def scegli_file():
@@ -38,8 +38,12 @@ def genera_txt():
     ]
 
     try:
-        genera_file_txt(path_db, sts_tables=sts_tables, par_tables=par_tables,hmi_cmd_tables=hmi_cmd_tables, device=PLC, path_db=path_db, output_dir=base_dir)
-        genera_file_txt(path_db, sts_tables=sts_tables, par_tables=par_tables,hmi_cmd_tables=hmi_cmd_tables, device=HMI, path_db=path_db, output_dir=base_dir)
+        file_paths = []
+        file_paths.append(genera_file_txt(path_db, sts_tables=sts_tables, par_tables=par_tables,hmi_cmd_tables=hmi_cmd_tables, device=PLC, path_db=path_db, output_dir=base_dir))
+        file_paths.append(genera_file_txt(path_db, sts_tables=sts_tables, par_tables=par_tables,hmi_cmd_tables=hmi_cmd_tables, device=HMI, path_db=path_db, output_dir=base_dir))
+    
+        open_generated_files(file_paths)
+            
     except Exception as e:
         messagebox.showerror("Errore", str(e))
         return
