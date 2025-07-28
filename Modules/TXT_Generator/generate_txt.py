@@ -10,8 +10,8 @@ def scegli_file():
         filetypes=[("Database SQLite", "*.sqlite *.db")]
     )
 
-def genera_txt():
-    path_db = scegli_file()
+def genera_txt(path_db):
+    #path_db = scegli_file()
     if not path_db:
         messagebox.showwarning("Attenzione", "Nessun file selezionato.")
         return
