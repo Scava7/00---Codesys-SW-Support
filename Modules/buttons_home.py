@@ -3,7 +3,7 @@ import tkinter as tk
 from Modules.tooltip import Tooltip 
 
 
-def aggiungi_bottone(testo, funzione, db_path_var, section_frame, font_bottone, tooltip=None):
+def add_button(testo, funzione, db_path_var, section_frame, font_bottone, tooltip=None):
         def wrapper():
             db_path = db_path_var.get()
             if not db_path:
@@ -23,7 +23,7 @@ def aggiungi_bottone(testo, funzione, db_path_var, section_frame, font_bottone, 
             Tooltip(punto_interrogativo, tooltip, border_color="#336699")
 
 
-def aggiungi_bottone_no_db(testo, funzione, section_frame, font_bottone, tooltip=None):
+def add_button_no_db(testo, funzione, section_frame, font_bottone, tooltip=None):
         frame = tk.Frame(section_frame, bg="#f0f4f8")
         frame.pack(pady=8)
         b = tk.Button(frame, text=testo, font=font_bottone, width=30, command=funzione)

@@ -50,5 +50,3 @@ def genera_txt(path_db):
 
     messagebox.showinfo("Successo", "File TXT generati correttamente.")
 
-def mostra_finestra():
-    genera_txt()

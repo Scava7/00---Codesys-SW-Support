@@ -66,6 +66,3 @@ def esporta_sqlite_in_excel():
 
     wb.save(xlsx_path)
     messagebox.showinfo("Completato", f"Esportazione completata in:\n{xlsx_path}")
-
-def mostra_finestra():
-    esporta_sqlite_in_excel()

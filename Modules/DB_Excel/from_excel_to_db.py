@@ -46,5 +46,3 @@ def importa_excel_in_sqlite():
     conn.close()
     messagebox.showinfo("Completato", f"Importazione completata in:\n{db_path}")
 
-def mostra_finestra():
-    importa_excel_in_sqlite()

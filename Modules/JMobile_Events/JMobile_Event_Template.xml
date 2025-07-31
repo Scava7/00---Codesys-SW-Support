@@ -1,0 +1,53 @@
+    <alarm eventBuffer="AlarmBuffer1" logToEventArchive="true" eventType="14" subType="1" storeAlarmInfo="true">
+        <name>EVENTxxx</name>
+        <groups></groups>
+        <source>HMI_Codesys/Application/IO/Event/Sts/Event[x]</source>
+        <alarmType>bitMaskAlarm</alarmType>
+        <bitMask>1</bitMask>
+        <enableTag></enableTag>
+        <remoteAck></remoteAck>
+        <ackNotify></ackNotify>
+        <touchAckNotify></touchAckNotify>
+        <enabled>true</enabled>
+        <requireAck>false</requireAck>
+        <blinkTxt>false</blinkTxt>
+        <requireReset>false</requireReset>
+        <severity>X</severity>
+        <priority>3</priority>
+        <logMask>76</logMask>
+        <notifyMask>76</notifyMask>
+        <actionMask>1</actionMask>
+        <printMask>1</printMask>
+        <customFields>
+            <customField_1>
+                <L1 langName="Lang1"></L1>
+            </customField_1>
+            <customField_2>
+                <L1 langName="Lang1"></L1>
+            </customField_2>
+        </customFields>
+        <colors>
+            <ackTxtColor>#ff0000</ackTxtColor>
+            <ackBgColor>#ffff00</ackBgColor>
+            <disabledTxtColor>#000000</disabledTxtColor>
+            <disabledBgColor>#ffffff</disabledBgColor>
+            <triggeredTxtColor>#000000</triggeredTxtColor>
+            <triggeredBgColor>#ffffff</triggeredBgColor>
+            <notTriggeredTxtColor>#000000</notTriggeredTxtColor>
+            <notTriggeredBgColor>#ffffff</notTriggeredBgColor>
+            <triggeredAckedTxtColor>#000000</triggeredAckedTxtColor>
+            <triggeredAckedBgColor>#ffffff</triggeredAckedBgColor>
+            <triggeredNotAckedTxtColor>#000000</triggeredNotAckedTxtColor>
+            <triggeredNotAckedBgColor>#ffffff</triggeredNotAckedBgColor>
+            <notTriggeredAckedTxtColor>#000000</notTriggeredAckedTxtColor>
+            <notTriggeredAckedBgColor>#ffffff</notTriggeredAckedBgColor>
+            <notTriggeredNotAckedTxtColor>#000000</notTriggeredNotAckedTxtColor>
+            <notTriggeredNotAckedBgColor>#ffffff</notTriggeredNotAckedBgColor>
+        </colors>
+        <actions/>
+        <useractions/>
+        <description>
+            <L1 langName="Lang1">W001 : fault pump1 control - dredging pump</L1>
+        </description>
+        <enableAudit auditBuff="" subT="1" eventT="18">false</enableAudit>
+    </alarm>

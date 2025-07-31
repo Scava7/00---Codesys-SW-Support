@@ -87,6 +87,3 @@ def replace_text():
     )
 
     messagebox.showinfo("Completato", f"File aggiornato salvato:\n{output_file_name}")
-
-def mostra_finestra():
-    replace_text()

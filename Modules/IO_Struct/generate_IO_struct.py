@@ -100,6 +100,3 @@ def converti_xml_in_yaml():
 
     except Exception as e:
         messagebox.showerror("Errore", str(e))
-
-def mostra_finestra():
-    converti_xml_in_yaml()
