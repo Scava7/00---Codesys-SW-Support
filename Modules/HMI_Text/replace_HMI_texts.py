@@ -13,12 +13,6 @@ def scegli_file_csv():
         filetypes=[("File CSV", "*.csv"), ("Tutti i file", "*.*")]
     )
 
-def scegli_file_db():
-    return filedialog.askopenfilename(
-        title="Seleziona il database SQLite",
-        filetypes=[("Database SQLite", "*.sqlite *.db")]
-    )
-
 def analizza_caratteri_a_capo(db_path):
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
@@ -44,15 +38,10 @@ def analizza_caratteri_a_capo(db_path):
 
     conn.close()
 
-def replace_text():
+def replace_text(db_path):
     csv_file = scegli_file_csv()
     if not csv_file:
         messagebox.showwarning("Attenzione", "Nessun file CSV selezionato.")
-        return
-
-    db_path = scegli_file_db()
-    if not db_path:
-        messagebox.showwarning("Attenzione", "Nessun database selezionato.")
         return
 
     # Analizza il database prima di proseguire

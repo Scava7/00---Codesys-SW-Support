@@ -13,11 +13,7 @@ def scegli_salvataggio(titolo, tipo_file):
     file_path = filedialog.asksaveasfilename(title=titolo, defaultextension=tipo_file[1], filetypes=[tipo_file])
     return file_path
 
-def esporta_sqlite_in_excel():
-    db_path = scegli_file("Scegli il database SQLite", [("Database SQLite", "*.db *.sqlite")])
-    if not db_path:
-        return
-
+def esporta_sqlite_in_excel(db_path):
     xlsx_path = scegli_salvataggio("Salva il file Excel", ("Excel Workbook", ".xlsx"))
     if not xlsx_path:
         return
