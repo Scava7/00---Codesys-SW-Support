@@ -46,7 +46,7 @@ def crea_button_generico(testo, funzione, section_frame, font_bottone,
 
         # Colora di verde solo se il pulsante è monitorato
         if monitor and tabelle_controllo:
-            monitor.aggiorna_hash_salvati(tabelle_controllo)
+            monitor.aggiorna_hash_salvati(tabelle_controllo, b)
 
     if tooltip:
         punto_interrogativo = tk.Label(frame, text="?", font=("Calibri", 20, "bold"),

@@ -14,6 +14,7 @@ class TableMonitor:
         self.tabelle_salvate = self._carica_hash_salvati()
         self.tabelle_attuali = {}
         self.registrazioni = []  # [(button, [tabelle])]
+        self.tabelle_autorizzate = {}
 
         self.refresh_interval_ms = refresh_interval_ms
         self._loop()
@@ -57,7 +58,20 @@ class TableMonitor:
     def _verifica_cambiamenti(self):
         if not self.db_path_var.get():
             return  # Nessun DB selezionato → esce
+
         for bottone, tabelle_da_controllare in self.registrazioni:
+            # 1. Se il pulsante non ha mai salvato nulla → NON premibile
+            if bottone not in getattr(self, 'tabelle_autorizzate', {}):
+                bottone.config(bg=COLORE_PULSANTE_PREMIBILE)
+                continue
+
+            # 2. Se anche solo una tabella non è tra quelle autorizzate per questo pulsante
+            tabelle_autorizzate = self.tabelle_autorizzate.get(bottone, [])
+            if any(t not in tabelle_autorizzate for t in tabelle_da_controllare):
+                bottone.config(bg=COLORE_PULSANTE_PREMIBILE)
+                continue
+
+            # 3. Confronta gli hash
             stato = "ok"
             for tabella in tabelle_da_controllare:
                 hash_attuale = self.tabelle_attuali.get(tabella)
@@ -65,20 +79,23 @@ class TableMonitor:
                 if hash_attuale and hash_attuale != hash_salvato:
                     stato = "changed"
                     break
-            # Aggiorna il colore in base allo stato
+
+            # 4. Applica colore in base allo stato
             if stato == "ok":
                 bottone.config(bg=COLORE_PULSANTE_OK)
             else:
                 bottone.config(bg=COLORE_PULSANTE_PREMIBILE)
 
+
     def registra_pulsante(self, bottone, tabelle_da_controllare):
         self.registrazioni.append((bottone, tabelle_da_controllare))
 
-    def aggiorna_hash_salvati(self, tabelle):
+    def aggiorna_hash_salvati(self, tabelle, bottone):
         for tabella in tabelle:
             h = self.tabelle_attuali.get(tabella)
             if h:
                 self.tabelle_salvate[tabella] = h
+        self.tabelle_autorizzate[bottone] = list(tabelle)  # traccia chi ha salvato cosa
         self._salva_hash()
 
     def _carica_hash_salvati(self):

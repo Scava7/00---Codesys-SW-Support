@@ -32,9 +32,10 @@ def main():
     titolo = tk.Label(root, text="Tool Multiuso", font=font_titolo, bg=COLORE_BG, fg="#333")
     titolo.pack(pady=(10, 30))
 
-    # Campo percorso database
-    db_path_var = crea_selettore_database(root, font_label)
+    db_path_var = tk.StringVar()
     monitor = TableMonitor(root, db_path_var, refresh_interval_ms=2000)
+    crea_selettore_database(root, font_label, db_path_var, monitor=monitor)
+
 
     # === SEZIONE: PULSANTI CON DATABASE =============================================================================================================================
     db_section_frame = tk.Frame(root, bg=COLORE_BG)
