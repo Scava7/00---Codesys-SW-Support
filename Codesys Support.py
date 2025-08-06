@@ -12,7 +12,7 @@ from Modules.IO_Struct.generate_IO_struct import converti_xml_in_yaml
 from Modules.TXT_Generator.generate_txt import genera_txt
 from Modules.JMobile_Events.JMobile_Event_XML_generator import genera_allarmi_xml
 from Modules.Ash_Calc.table_monitor import TableMonitor
-from Modules.Parameters_Import.Par_Import import import_parameters_file
+from Modules.Parameters_Import.importer import import_parameters_file
 from Modules.constants import *
 
 
