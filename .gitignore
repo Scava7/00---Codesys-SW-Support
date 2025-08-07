@@ -46,3 +46,8 @@ Thumbs.db
 # Tkinter .ico o immagini generate
 *.ico
 *.png
+
+# Cartelle create da PyInstaller (o simili)
+build/
+dist/
+*.spec
