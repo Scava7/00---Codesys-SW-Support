@@ -4,12 +4,6 @@ from tkinter import filedialog, messagebox
 from Modules.TXT_Generator.fb_generate_file import genera_file_txt, open_generated_files
 from Modules.TXT_Generator.constants import PLC, HMI
 
-def scegli_file():
-    return filedialog.askopenfilename(
-        title="Seleziona il database SQLite",
-        filetypes=[("Database SQLite", "*.sqlite *.db")]
-    )
-
 def genera_txt(path_db):
     #path_db = scegli_file()
     if not path_db:

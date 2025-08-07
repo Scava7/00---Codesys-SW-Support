@@ -31,9 +31,44 @@ def path_to_file(path_db, device):
 
     return(file_name)
 
-def genera_file_txt(db_path, sts_tables, par_tables,hmi_cmd_tables, device, path_db, output_dir=None):
+def genera_file_txt(db_path, sts_tables, par_tables,hmi_cmd_tables, device, path_db, output_dir=None, mach_details=None):
     conn = sqlite3.connect(db_path)
     contenuto = []
+
+    # === INTESTAZIONE FILE ===
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    nome_db = os.path.basename(db_path)
+
+    # Estrazione dati da MACH_DETAILS in base alla descrizione
+    try:
+        df_details = pd.read_sql_query("SELECT description, factory_value FROM MACH_DETAILS", conn)
+        def get_value(desc):
+            match = df_details.loc[df_details["description"] == desc, "factory_value"]
+            return match.values[0] if not match.empty else "N/D"
+
+        customer = get_value("Customer name")
+        model = get_value("Machine model")
+        serial = get_value("Serial number")
+        sw_rev = get_value("Software revision")
+    except Exception as e:
+        print(f"[ERRORE] Lettura MACH_DETAILS fallita: {e}")
+        customer = model = serial = sw_rev = "N/D"
+
+    intestazione = [
+        "//" * 50,
+        f"//Generated: {now}",
+        f"//Source database: {nome_db}",
+        f"//Customer name: {customer}",
+        f"//Machine model: {model}",
+        f"//Serial number: {serial}",
+        f"//Software revision: {sw_rev}",
+        f"//Device: {device}",
+        "//" * 50
+    ]
+
+    contenuto = []
+    contenuto.extend(intestazione)
+
 
     # write the default parameters block only on PLC file
     if device == PLC:
@@ -75,7 +110,7 @@ def genera_file_txt(db_path, sts_tables, par_tables,hmi_cmd_tables, device, path
         f.write("\n".join(contenuto))
 
     print(f"[OK] File generato: {output_path}")
-    messagebox.showinfo("Successo", f"File generato:\n{output_path}")
+    #messagebox.showinfo("Successo", f"File generato:\n{output_path}")
 
     return output_path
 
